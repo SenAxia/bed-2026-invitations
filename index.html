@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Invitations — Black Excellence Dinner 2026</title>
+  <meta name="description" content="Générateur de cartes d'invitation personnalisées — Gala des 10 ans, I AM FOUNDATION." />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#2b2b2b" />
+  <link rel="preload" href="assets/Satoshi-Black.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="band" aria-hidden="true">
+    <span class="b b1"></span><span class="b b2"></span><span class="b b3"></span><span class="b b4"></span>
+    <span class="b b5"></span><span class="b b6"></span><span class="b b7"></span><span class="b b8"></span>
+  </div>
+
+  <header class="top">
+    <p class="kicker">Gala des 10 ans — I AM FOUNDATION</p>
+    <h1>Black Excellence Dinner 2026<span>Générateur d'invitations</span></h1>
+  </header>
+
+  <main class="layout">
+    <section class="panel" aria-label="Noms">
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tab-single" aria-selected="true" aria-controls="pane-single">Un nom</button>
+        <button role="tab" id="tab-list" aria-selected="false" aria-controls="pane-list">Une liste</button>
+      </div>
+
+      <div id="pane-single" role="tabpanel" aria-labelledby="tab-single" class="pane">
+        <label class="field">
+          <span>Nom de l'invité·e</span>
+          <input id="single-name" type="text" autocomplete="off" spellcheck="false" placeholder="Mme Aïcha Dossou" />
+        </label>
+        <button id="single-dl" class="btn primary" disabled>Télécharger le PDF</button>
+      </div>
+
+      <div id="pane-list" role="tabpanel" aria-labelledby="tab-list" class="pane" hidden>
+        <label class="field">
+          <span>Colle ta liste — un nom par ligne, ou un export Excel / Sheets / CSV</span>
+          <textarea id="list-input" rows="7" spellcheck="false" placeholder="Aïcha Dossou&#10;Koffi Mensah&#10;Awa Diop"></textarea>
+        </label>
+        <div class="row">
+          <button id="list-parse" class="btn primary">Générer les cartes</button>
+          <label class="btn ghost file">
+            Importer .csv / .txt
+            <input id="list-file" type="file" accept=".csv,.txt,.tsv,text/csv,text/plain" />
+          </label>
+        </div>
+        <p class="hint">Les colonnes Prénom / Nom / Civilité sont reconnues. Les e-mails, téléphones et doublons sont ignorés.</p>
+
+        <div id="results" class="results" hidden>
+          <div class="results-head">
+            <strong id="count">0 carte</strong>
+            <button id="zip-dl" class="btn primary small">Tout télécharger (.zip)</button>
+          </div>
+          <div id="progress" class="progress" hidden><span></span></div>
+          <ol id="name-list" class="name-list"></ol>
+          <button id="add-row" class="btn ghost small">+ Ajouter un nom</button>
+        </div>
+      </div>
+
+      <label class="toggle">
+        <input id="opt-upper" type="checkbox" />
+        <span>Écrire les noms en majuscules</span>
+      </label>
+    </section>
+
+    <section class="preview" aria-label="Aperçu de la carte">
+      <div class="preview-tabs">
+        <button id="side-verso" class="chip active">Verso — nom</button>
+        <button id="side-recto" class="chip">Recto</button>
+      </div>
+      <div class="card">
+        <svg id="card-svg" viewBox="0 0 419.528 595.276" role="img" aria-label="Aperçu de l'invitation">
+          <image id="card-img" href="assets/verso.webp" x="0" y="0" width="419.528" height="595.276" />
+          <text id="card-name" x="42.5197" y="154.8805" font-size="14"></text>
+        </svg>
+      </div>
+      <p class="preview-note">Le PDF reprend le fichier d'origine en vectoriel — 2 pages, A5.</p>
+    </section>
+  </main>
+
+  <template id="row-tpl">
+    <li class="name-row">
+      <input class="name-input" type="text" spellcheck="false" aria-label="Nom" />
+      <button class="icon dl" title="Télécharger ce PDF" aria-label="Télécharger ce PDF">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5M4 15.5h12" /></svg>
+      </button>
+      <button class="icon rm" title="Retirer" aria-label="Retirer">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" /></svg>
+      </button>
+    </li>
+  </template>
+
+  <script src="vendor/pdf-lib.min.js"></script>
+  <script src="vendor/fontkit.umd.min.js"></script>
+  <script src="vendor/jszip.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
