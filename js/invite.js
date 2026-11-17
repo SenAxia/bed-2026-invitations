@@ -29,7 +29,9 @@ export function createInviteFactory({ PDFLib, fontkit, templateBytes, fontBytes 
     const font = await doc.embedFont(fontBytes, { subset: false });
     const page = doc.getPage(LAYOUT.pageIndex);
     const { height } = page.getSize();
-    const text = name.trim();
+    // Dernier filet : on retire tout caractère absent de la police (sinon il s'imprime en blanc)
+    const supported = new Set(font.getCharacterSet());
+    const text = [...name.trim()].filter((c) => c === ' ' || supported.has(c.codePointAt(0))).join('').trim();
     const size = fitFontSize((t, s) => font.widthOfTextAtSize(t, s), text);
 
     page.drawText(text, {

@@ -1,4 +1,4 @@
-import { parseNames, slugify } from './parse.js';
+import { parseNames, slugify, sanitizeName } from './parse.js';
 import { createInviteFactory, fitFontSize, LAYOUT } from './invite.js';
 
 const $ = (s) => document.querySelector(s);
@@ -35,7 +35,7 @@ if ('requestIdleCallback' in window) requestIdleCallback(() => getFactory());
 else setTimeout(getFactory, 800);
 
 const finalName = (n) => {
-  const v = n.replace(/\s+/g, ' ').trim();
+  const v = sanitizeName(n);
   return els.upper.checked ? v.toLocaleUpperCase('fr') : v;
 };
 

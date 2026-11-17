@@ -5,12 +5,23 @@ const HEADER_LAST = /^(nom(\s+de\s+famille)?|last[\s_-]?name|surname|family[\s_-
 const HEADER_FULL = /^(nom\s+complet|full[\s_-]?name|name|invit[ée]e?s?|participants?|noms?|guests?)$/i;
 const HEADER_TITLE = /^(civilit[ée]|titre|title)$/i;
 
-function cleanCell(s) {
-  return s
-    .replace(/^﻿/, '')
-    .replace(/^["'“”«]+|["'“”»]+$/g, '')
-    .replace(/\s+/g, ' ')
+// Supprime les caractères invisibles collés depuis Excel, Sheets, Notion, WhatsApp…
+// (espaces de largeur nulle, marques de direction, trait d'union conditionnel, BOM, espaces
+// « vides » Braille/Hangul) et ramène tous les types d'espaces à une espace simple.
+const INVISIBLE = /[\p{Cc}\p{Cf}\p{Co}\p{Cn}⠀ㅤᅟᅠﾠ]/gu;
+export function sanitizeName(s) {
+  return String(s)
+    .normalize('NFC')
+    .replace(/[\t\r\n]/g, ' ')
+    .replace(INVISIBLE, '')
+    .replace(/[\p{Z}\s]+/gu, ' ')
+    .replace(/^[^\p{L}\p{N}]+/u, '') // rien d'autre qu'une lettre ou un chiffre en tête
+    .replace(/[^\p{L}\p{N}.)]+$/u, '') // ni de ponctuation parasite en fin
     .trim();
+}
+
+function cleanCell(s) {
+  return sanitizeName(s);
 }
 
 // Retire puces et numérotation : "1. ", "12) ", "- ", "• ", "* "
