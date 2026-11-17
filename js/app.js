@@ -22,7 +22,7 @@ function getFactory() {
   if (!factoryPromise) {
     factoryPromise = Promise.all([
       fetch('assets/invitation-template.pdf').then((r) => r.arrayBuffer()),
-      fetch('assets/Satoshi-Black-subset.otf').then((r) => r.arrayBuffer()),
+      fetch('assets/Satoshi-Black-subset.ttf').then((r) => r.arrayBuffer()),
     ]).then(([templateBytes, fontBytes]) =>
       createInviteFactory({ PDFLib: window.PDFLib, fontkit: window.fontkit, templateBytes, fontBytes })
     );
